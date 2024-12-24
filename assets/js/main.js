@@ -1,14 +1,14 @@
 const video = document.getElementById("video");
 const canvas = document.getElementById("video-thumbnail");
 const playPauseOverlay = document.getElementById("play-pause-overlay");
-const playPauseOverlayParent = document.getElementById(
-  "play-pause-overlay-parent"
-);
+const playPauseOverlayParent = document.getElementById("play-pause-overlay-parent");
 const playButtonControl = document.getElementById("play-icon");
 const pauseButtonControl = document.getElementById("pause-icon");
 const seekBar = document.getElementById("seek-bar");
 const controls = document.getElementById("video-controls");
 const fullScreenButton = document.getElementById("full-screen");
+const volumeIcon = document.getElementById("volume-icon");
+const volumeBar = document.getElementById("volume-bar");
 let controlsTimeout;
 let isMouseOverControls = false;
 
@@ -39,9 +39,7 @@ document.querySelector(".play-pause").addEventListener("click", () => {
 video.addEventListener("timeupdate", () => {
   const value = (100 / video.duration) * video.currentTime;
   seekBar.value = value;
-  document.getElementById("current-time").textContent = formatTime(
-    video.currentTime
-  );
+  document.getElementById("current-time").textContent = formatTime(video.currentTime);
   document.getElementById("duration").textContent = formatTime(video.duration);
 });
 
@@ -70,7 +68,7 @@ function togglePlayPause() {
   }
 }
 
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keydown", function(event) {
   if (event.code === "Space") {
     togglePlayPause();
   }
@@ -88,11 +86,15 @@ document.addEventListener("keydown", function (event) {
   }
 
   if (event.code === "ArrowUp") {
-    video.volume += 0.1;
+    video.volume = Math.min(video.volume + 0.1, 1);
+    updateVolumeDisplay();
+    updateVolumeBar();
   }
 
   if (event.code === "ArrowDown") {
-    video.volume -= 0.1;
+    video.volume = Math.max(video.volume - 0.1, 0);
+    updateVolumeDisplay();
+    updateVolumeBar();
   }
 });
 
@@ -122,14 +124,9 @@ controls.addEventListener("mouseleave", () => {
 
 function toggleFullScreen() {
   if (!document.fullscreenElement) {
-    document
-      .querySelector(".video-container")
-      .requestFullscreen()
-      .catch((err) => {
-        alert(
-          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-        );
-      });
+    document.querySelector(".video-container").requestFullscreen().catch(err => {
+      alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+    });
   } else {
     document.exitFullscreen();
   }
@@ -148,3 +145,20 @@ document.addEventListener("fullscreenchange", () => {
 
 video.addEventListener("dblclick", toggleFullScreen);
 video.addEventListener("click", togglePlayPause);
+
+volumeBar.addEventListener("input", () => {
+  video.volume = volumeBar.value;
+  updateVolumeDisplay();
+  updateVolumeBar();
+});
+
+function updateVolumeDisplay() {
+  volumeIcon.title = `Volume: ${Math.round(video.volume * 100)}%`;
+}
+
+function updateVolumeBar() {
+  volumeBar.value = video.volume;
+}
+
+updateVolumeDisplay();
+updateVolumeBar();

@@ -59,9 +59,9 @@ video {
   opacity: 1;
 }
 
-.controls.hidden {
+.controls .hidden {
   opacity: 0;
-  pointer-events: none; /* Pour éviter les interactions lorsque les contrôles sont cachés */
+  pointer-events: none; 
 }
 
 .controls-option {
@@ -115,7 +115,6 @@ video {
   position: absolute;
   right: -100px;
   width: 100px;
-  transform: rotate(-90deg);
   transform-origin: right;
   display: none;
 }
