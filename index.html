@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lecteur vidéo personnalisé</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <div class="video-container">
+      <video id="video" width="600" class="hidden" preload="metadata">
+        <source src="./assets/video/test.mp4" type="video/mp4" />
+      </video>
+
+      <canvas id="video-thumbnail" width="600" height="300"></canvas>
+
+      <div class="play-pause-overlay-parent" id="play-pause-overlay-parent">
+        <div class="play-pause-overlay" id="play-pause-overlay">
+          <img
+            id="play-pause-icon"
+            src="./assets/img/icon/play.svg"
+            alt="Play"
+          />
+        </div>
+      </div>
+
+      <div class="controls hidden" id="video-controls">
+        <input type="range" id="seek-bar" value="0" max="100" />
+        <div class="controls-option">
+          <div class="controls-option-left">
+            <div class="play-pause">
+              <img id="play-icon" src="./assets/img/icon/play.svg" alt="Play" />
+              <img
+                id="pause-icon"
+                class="hidden"
+                src="./assets/img/icon/pause.svg"
+                alt="Pause"
+              />
+            </div>
+            <div class="time">
+              <span id="current-time">0:00</span> /
+              <span id="duration">0:00</span>
+            </div>
+            <div class="volume-control">
+              <img
+                id="volume-icon"
+                src="./assets/img/icon/volume.svg"
+                alt="Volume"
+              />
+              <input
+                type="range"
+                id="volume-bar"
+                class="hidden"
+                min="0"
+                max="1"
+                step="0.1"
+                value="1"
+              />
+            </div>
+          </div>
+          <div class="controls-option-right">
+            <button id="setting">
+              <img src="./assets/img/icon/setting.svg" alt="Settings" />
+            </button>
+            <button id="full-screen">
+              <img src="./assets/img/icon/full-screen.svg" alt="Full screen" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./assets/js/main.js"></script>
+  </body>
+</html>
