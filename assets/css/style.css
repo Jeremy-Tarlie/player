@@ -30,7 +30,6 @@ video {
   z-index: 2;
   background-color: rgba(0, 0, 0, 0.5);
 }
-
 .play-pause-overlay {
   position: absolute;
   top: 50%;
@@ -40,6 +39,27 @@ video {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: white;
+  opacity: 0.5;
+  padding: 20px;
+  border-radius: 50%;
+  box-shadow: 0 0 15px 15px rgba(0, 0, 0, 0.5);
+}
+
+.play-pause-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  pointer-events: none; /* Pour éviter les interactions avec le pseudo-élément */
 }
 
 #play-pause-icon {
@@ -61,7 +81,12 @@ video {
 
 .controls .hidden {
   opacity: 0;
-  pointer-events: none; 
+  pointer-events: none;
+  display: none;
+}
+
+#volume-bar {
+  opacity: 1;
 }
 
 .controls-option {
@@ -85,9 +110,15 @@ video {
   width: 25%;
 }
 
-#play-icon, #pause-icon {
+#play-icon,
+#pause-icon {
   width: 20px;
   height: 20px;
+}
+
+#play-icon:hover,
+#pause-icon:hover {
+  opacity: 0.5;
 }
 
 .time {
@@ -116,9 +147,40 @@ video {
   right: -100px;
   width: 100px;
   transform-origin: right;
-  display: none;
 }
 
-.volume-control:hover #volume-bar {
+.volume-control:hover #volume-bar,
+#volume-bar:hover {
   display: block;
+}
+
+#settings {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+#settings-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+#settings:hover {
+  opacity: 0.5;
+}
+
+#full-screen {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+#full-screen:hover {
+  opacity: 0.5;
+}
+
+#full-screen-icon {
+  width: 20px;
+  height: 20px;
 }
