@@ -21,6 +21,8 @@ video {
   background-color: black;
 }
 
+/* Play Pause Overlay */
+
 .play-pause-overlay-parent {
   position: absolute;
   top: 0;
@@ -59,12 +61,14 @@ video {
     rgba(255, 255, 255, 0) 50%,
     rgba(0, 0, 0, 0.8) 100%
   );
-  pointer-events: none; /* Pour éviter les interactions avec le pseudo-élément */
+  pointer-events: none; 
 }
 
 #play-pause-icon {
   width: 50px;
 }
+
+/* Controls */
 
 .controls {
   background-color: rgba(0, 0, 0, 0.5);
@@ -85,9 +89,7 @@ video {
   display: none;
 }
 
-#volume-bar {
-  opacity: 1;
-}
+
 
 .controls-option {
   display: flex;
@@ -110,6 +112,8 @@ video {
   width: 25%;
 }
 
+/* play pause */
+
 #play-icon,
 #pause-icon {
   width: 20px;
@@ -121,6 +125,8 @@ video {
   opacity: 0.5;
 }
 
+/* time */
+
 .time {
   color: white;
   font-size: 12px;
@@ -129,6 +135,8 @@ video {
 #seek-bar {
   width: 100%;
 }
+
+/* volume control */
 
 .volume-control {
   position: relative;
@@ -147,12 +155,15 @@ video {
   right: -100px;
   width: 100px;
   transform-origin: right;
+  opacity: 1;
 }
 
 .volume-control:hover #volume-bar,
 #volume-bar:hover {
   display: block;
 }
+
+/* Settings */
 
 #settings {
   cursor: pointer;
@@ -170,6 +181,9 @@ video {
   opacity: 0.5;
 }
 
+
+/* Full screen */
+
 #full-screen {
   cursor: pointer;
   background: none;
@@ -183,4 +197,89 @@ video {
 #full-screen-icon {
   width: 20px;
   height: 20px;
+}
+
+
+/* Settings Menu */
+.settings-menu {
+  position: absolute;
+  top: 350px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  width: 200px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  height: 200px;
+  overflow-y: scroll;
+  scrollbar-width: none; /* For Firefox */
+}
+
+.settings-menu::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+
+.settings-option {
+  margin-bottom: 10px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item-icon {
+  margin-right: 10px;
+}
+
+.menu-item-icon svg {
+  fill: white;
+}
+
+.menu-item-label {
+  flex-grow: 1;
+}
+
+.menu-item-content {
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+
+.speed-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.speed-options li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.speed-options li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.hidden {
+  display: none;
 }

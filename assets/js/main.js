@@ -1,9 +1,7 @@
 const video = document.getElementById("video");
 const canvas = document.getElementById("video-thumbnail");
 const playPauseOverlay = document.getElementById("play-pause-overlay");
-const playPauseOverlayParent = document.getElementById(
-  "play-pause-overlay-parent"
-);
+const playPauseOverlayParent = document.getElementById("play-pause-overlay-parent");
 const playButtonControl = document.getElementById("play-icon");
 const pauseButtonControl = document.getElementById("pause-icon");
 const seekBar = document.getElementById("seek-bar");
@@ -11,6 +9,8 @@ const controls = document.getElementById("video-controls");
 const fullScreenButton = document.getElementById("full-screen");
 const volumeIcon = document.getElementById("volume-icon");
 const volumeBar = document.getElementById("volume-bar");
+const playbackSpeed = document.getElementById("playback-speed");
+const speedOptions = document.getElementById("speed-options");
 let controlsTimeout;
 let isMouseOverControls = false;
 
@@ -41,9 +41,7 @@ document.querySelector(".play-pause").addEventListener("click", () => {
 video.addEventListener("timeupdate", () => {
   const value = (100 / video.duration) * video.currentTime;
   seekBar.value = value;
-  document.getElementById("current-time").textContent = formatTime(
-    video.currentTime
-  );
+  document.getElementById("current-time").textContent = formatTime(video.currentTime);
   document.getElementById("duration").textContent = formatTime(video.duration);
 });
 
@@ -72,7 +70,7 @@ function togglePlayPause() {
   }
 }
 
-document.addEventListener("keydown", function (event) {
+document.addEventListener("keydown", function(event) {
   if (event.code === "Space") {
     togglePlayPause();
   }
@@ -128,14 +126,9 @@ controls.addEventListener("mouseleave", () => {
 
 function toggleFullScreen() {
   if (!document.fullscreenElement) {
-    document
-      .querySelector(".video-container")
-      .requestFullscreen()
-      .catch((err) => {
-        alert(
-          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-        );
-      });
+    document.querySelector(".video-container").requestFullscreen().catch(err => {
+      alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+    });
   } else {
     document.exitFullscreen();
   }
@@ -174,10 +167,6 @@ volumeBar.addEventListener("mouseleave", () => {
   volumeBar.classList.add("hidden");
 });
 
-volumeIcon.addEventListener("mouseleave", () => {
-  volumeBar.classList.add("hidden");
-});
-
 volumeBar.addEventListener("input", () => {
   video.volume = volumeBar.value;
   updateVolumeDisplay();
@@ -200,6 +189,21 @@ function updateVolumeDisplay() {
 function updateVolumeBar() {
   volumeBar.value = video.volume;
 }
+
+// Toggle speed options visibility
+playbackSpeed.addEventListener("click", () => {
+  speedOptions.classList.toggle("hidden");
+});
+
+// Set video playback speed
+speedOptions.addEventListener("click", (event) => {
+  const speed = event.target.getAttribute("data-speed");
+  if (speed) {
+    video.playbackRate = parseFloat(speed);
+    document.querySelector(".menu-item-content").textContent = `${speed}x`;
+    speedOptions.classList.add("hidden");
+  }
+});
 
 updateVolumeDisplay();
 updateVolumeBar();
