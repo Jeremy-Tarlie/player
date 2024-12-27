@@ -11,6 +11,8 @@ const volumeIcon = document.getElementById("volume-icon");
 const volumeBar = document.getElementById("volume-bar");
 const playbackSpeed = document.getElementById("playback-speed");
 const speedOptions = document.getElementById("speed-options");
+const settingMenu = document.getElementById("settings-menu");
+const settingsControl = document.getElementById("settings-control");
 let controlsTimeout;
 let isMouseOverControls = false;
 
@@ -103,7 +105,7 @@ document.addEventListener("keydown", function(event) {
 function hideControlsAfterDelay() {
   clearTimeout(controlsTimeout);
   controlsTimeout = setTimeout(() => {
-    if (!isMouseOverControls) {
+    if (!isMouseOverControls && settingMenu.classList.contains("hidden")) {
       controls.classList.add("hidden");
     }
   }, 2000);
@@ -202,6 +204,20 @@ speedOptions.addEventListener("click", (event) => {
     video.playbackRate = parseFloat(speed);
     document.querySelector(".menu-item-content").textContent = `${speed}x`;
     speedOptions.classList.add("hidden");
+  }
+});
+
+settingsControl.addEventListener("click", (event) => {
+  event.stopPropagation(); // Prevent the click from propagating to the document
+  settingMenu.classList.toggle("hidden");
+  if (!settingMenu.classList.contains("hidden")) {
+    controls.classList.remove("hidden");
+  }
+});
+
+document.addEventListener("click", (event) => {
+  if (!settingMenu.contains(event.target) && !settingsControl.contains(event.target)) {
+    settingMenu.classList.add("hidden");
   }
 });
 
