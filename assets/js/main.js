@@ -11,6 +11,7 @@ const volumeIcon = document.getElementById("volume-icon");
 const volumeBar = document.getElementById("volume-bar");
 const playbackSpeed = document.getElementById("playback-speed");
 const speedOptions = document.getElementById("speed-options");
+const speed = document.getElementById("speed");
 const settingMenu = document.getElementById("settings-menu");
 const settingsControl = document.getElementById("settings-control");
 const add10s = document.getElementById("add10s");
@@ -230,6 +231,21 @@ add10s.addEventListener("click", () => {
 
 subtract10s.addEventListener("click", () => {
   video.currentTime -= 10;
+});
+
+playbackSpeed.addEventListener("click", () => {
+  speed.classList.toggle("hidden");
+  speed.classList.toggle("show"); 
+});
+
+speed.addEventListener("click", (event) => {
+  const speed = event.target.getAttribute("data-speed");
+  if (speed) {
+    video.playbackRate = parseFloat(speed);
+    document.querySelector(".menu-item-content").textContent = `${speed}x`;
+    speed.classList.add("hidden");
+    speed.classList.remove("show"); 
+  }
 });
 
 updateVolumeDisplay();

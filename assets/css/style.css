@@ -102,6 +102,7 @@ video {
   justify-content: space-around;
   align-items: center;
   width: 25%;
+  margin-left: 10px;
 }
 
 .controls-option-right {
@@ -242,6 +243,7 @@ video {
   height: 200px;
   overflow-y: scroll;
   scrollbar-width: none; /* For Firefox */
+  user-select: none;
 }
 
 .settings-menu::-webkit-scrollbar {
@@ -308,4 +310,52 @@ video {
 
 .hidden {
   display: none;
+}
+
+.menu-item-arrow{
+  display: flex;
+  align-items: center;
+}
+
+.menu-item-arrow .menu-item-content{
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.menu-item-arrow svg{
+  rotate: 90deg;
+}
+
+.menu-item-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Speed options */
+.speed-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 5px;
+  display: none;
+  position: absolute;
+  top: 0; 
+  right: -100%; 
+  width: 100px; 
+  z-index: 10;
+  transition: right 0.3s ease;
+}
+
+.speed-options.show {
+  right: 0; 
+}
+
+.speed-options li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.speed-options li:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
