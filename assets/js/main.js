@@ -13,6 +13,8 @@ const playbackSpeed = document.getElementById("playback-speed");
 const speedOptions = document.getElementById("speed-options");
 const settingMenu = document.getElementById("settings-menu");
 const settingsControl = document.getElementById("settings-control");
+const add10s = document.getElementById("add10s");
+const subtract10s = document.getElementById("subtract10s");
 let controlsTimeout;
 let isMouseOverControls = false;
 
@@ -219,6 +221,15 @@ document.addEventListener("click", (event) => {
   if (!settingMenu.contains(event.target) && !settingsControl.contains(event.target)) {
     settingMenu.classList.add("hidden");
   }
+});
+
+add10s.addEventListener("click", () => {
+  video.currentTime += 10;
+});
+
+
+subtract10s.addEventListener("click", () => {
+  video.currentTime -= 10;
 });
 
 updateVolumeDisplay();
