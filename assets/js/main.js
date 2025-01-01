@@ -1,7 +1,9 @@
 const video = document.getElementById("video");
 const canvas = document.getElementById("video-thumbnail");
 const playPauseOverlay = document.getElementById("play-pause-overlay");
-const playPauseOverlayParent = document.getElementById("play-pause-overlay-parent");
+const playPauseOverlayParent = document.getElementById(
+  "play-pause-overlay-parent"
+);
 const playButtonControl = document.getElementById("play-icon");
 const pauseButtonControl = document.getElementById("pause-icon");
 const seekBar = document.getElementById("seek-bar");
@@ -46,7 +48,9 @@ document.querySelector(".play-pause").addEventListener("click", () => {
 video.addEventListener("timeupdate", () => {
   const value = (100 / video.duration) * video.currentTime;
   seekBar.value = value;
-  document.getElementById("current-time").textContent = formatTime(video.currentTime);
+  document.getElementById("current-time").textContent = formatTime(
+    video.currentTime
+  );
   document.getElementById("duration").textContent = formatTime(video.duration);
 });
 
@@ -74,34 +78,42 @@ function togglePlayPause() {
     controls.classList.remove("hidden");
   }
 }
+document.addEventListener("keydown", function (event) {
+  if (playPauseOverlayParent.style.cssText === "display: none;") {
+    if (event.key === " " || event.key.toLowerCase() === "k") {
+      togglePlayPause();
+    }
 
-document.addEventListener("keydown", function(event) {
-  if (event.code === "Space") {
-    togglePlayPause();
-  }
+    if (event.key.toLowerCase() === "f") {
+      toggleFullScreen();
+    }
 
-  if (event.code === "KeyF") {
-    toggleFullScreen();
-  }
+    if (event.key === "ArrowRight" || event.key.toLowerCase() === "l") {
+      video.currentTime += 5;
+    }
 
-  if (event.code === "ArrowRight") {
-    video.currentTime += 5;
-  }
+    if (event.key === "ArrowLeft" || event.key.toLowerCase() === "j") {
+      video.currentTime -= 5;
+    }
 
-  if (event.code === "ArrowLeft") {
-    video.currentTime -= 5;
-  }
+    if (event.key === "ArrowUp") {
+      video.volume = Math.min(video.volume + 0.1, 1);
+      updateVolumeDisplay();
+      updateVolumeBar();
+    }
 
-  if (event.code === "ArrowUp") {
-    video.volume = Math.min(video.volume + 0.1, 1);
-    updateVolumeDisplay();
-    updateVolumeBar();
-  }
+    if (event.key === "ArrowDown") {
+      video.volume = Math.max(video.volume - 0.1, 0);
+      updateVolumeDisplay();
+      updateVolumeBar();
+    }
 
-  if (event.code === "ArrowDown") {
-    video.volume = Math.max(video.volume - 0.1, 0);
-    updateVolumeDisplay();
-    updateVolumeBar();
+    if (event.key.toLowerCase() === "m") {
+      video.muted = !video.muted;
+      video.muted ? (volumeBar.value = 0) : (volumeBar.value = video.volume);
+      updateVolumeDisplay();
+      updateVolumeBar();
+    }
   }
 });
 
@@ -131,9 +143,14 @@ controls.addEventListener("mouseleave", () => {
 
 function toggleFullScreen() {
   if (!document.fullscreenElement) {
-    document.querySelector(".video-container").requestFullscreen().catch(err => {
-      alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-    });
+    document
+      .querySelector(".video-container")
+      .requestFullscreen()
+      .catch((err) => {
+        alert(
+          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+        );
+      });
   } else {
     document.exitFullscreen();
   }
@@ -183,11 +200,11 @@ function updateVolumeDisplay() {
     (!video.muted ? video.volume : 0) * 100
   )}%`;
   if (video.muted || video.volume === 0) {
-    volumeIcon.src = './assets/img/icon/sound-off.svg';
+    volumeIcon.src = "./assets/img/icon/sound-off.svg";
   } else if (video.volume < 0.5) {
-    volumeIcon.src = './assets/img/icon/sound-volume-1.svg';
+    volumeIcon.src = "./assets/img/icon/sound-volume-1.svg";
   } else {
-    volumeIcon.src = './assets/img/icon/sound-volume-2.svg';
+    volumeIcon.src = "./assets/img/icon/sound-volume-2.svg";
   }
 }
 
@@ -219,7 +236,10 @@ settingsControl.addEventListener("click", (event) => {
 });
 
 document.addEventListener("click", (event) => {
-  if (!settingMenu.contains(event.target) && !settingsControl.contains(event.target)) {
+  if (
+    !settingMenu.contains(event.target) &&
+    !settingsControl.contains(event.target)
+  ) {
     settingMenu.classList.add("hidden");
   }
 });
@@ -228,14 +248,13 @@ add10s.addEventListener("click", () => {
   video.currentTime += 10;
 });
 
-
 subtract10s.addEventListener("click", () => {
   video.currentTime -= 10;
 });
 
 playbackSpeed.addEventListener("click", () => {
   speed.classList.toggle("hidden");
-  speed.classList.toggle("show"); 
+  speed.classList.toggle("show");
 });
 
 speed.addEventListener("click", (event) => {
@@ -244,7 +263,7 @@ speed.addEventListener("click", (event) => {
     video.playbackRate = parseFloat(speed);
     document.querySelector(".menu-item-content").textContent = `${speed}x`;
     speed.classList.add("hidden");
-    speed.classList.remove("show"); 
+    speed.classList.remove("show");
   }
 });
 
