@@ -22,7 +22,7 @@ const subtract10s = document.getElementById("subtract10s");
 let controlsTimeout;
 let isMouseOverControls = false;
 
-
+// Capture a thumbnail from the video
 function captureThumbnail() {
   const ctx = canvas.getContext("2d");
   video.currentTime = 2;
@@ -32,6 +32,7 @@ function captureThumbnail() {
 }
 captureThumbnail();
 
+// Play video on overlay click
 playPauseOverlay.addEventListener("click", () => {
   video.classList.remove("hidden");
   video.play();
@@ -43,10 +44,12 @@ playPauseOverlay.addEventListener("click", () => {
   hideControlsAfterDelay();
 });
 
+// Toggle play/pause on button click
 document.querySelector(".play-pause").addEventListener("click", () => {
   togglePlayPause();
 });
 
+// Update seek bar and time display
 video.addEventListener("timeupdate", () => {
   const value = (100 / video.duration) * video.currentTime;
   seekBar.value = value;
@@ -56,17 +59,20 @@ video.addEventListener("timeupdate", () => {
   document.getElementById("duration").textContent = formatTime(video.duration);
 });
 
+// Seek video on seek bar input
 seekBar.addEventListener("input", () => {
   const time = video.duration * (seekBar.value / 100);
   video.currentTime = time;
 });
 
+// Format time in minutes and seconds
 function formatTime(time) {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
   return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 }
 
+// Toggle play/pause state
 function togglePlayPause() {
   if (video.paused) {
     video.play();
@@ -80,6 +86,8 @@ function togglePlayPause() {
     controls.classList.remove("hidden");
   }
 }
+
+// Handle keyboard shortcuts
 document.addEventListener("keydown", function (event) {
   if (playPauseOverlayParent.style.cssText === "display: none;") {
     if (event.key === " " || event.key.toLowerCase() === "k") {
@@ -112,13 +120,13 @@ document.addEventListener("keydown", function (event) {
 
     if (event.key.toLowerCase() === "m") {
       video.muted = !video.muted;
-      video.muted ? (volumeBar.value = 0) : (volumeBar.value = video.volume);
       updateVolumeDisplay();
       updateVolumeBar();
     }
   }
 });
 
+// Hide controls after a delay
 function hideControlsAfterDelay() {
   clearTimeout(controlsTimeout);
   controlsTimeout = setTimeout(() => {
@@ -128,21 +136,25 @@ function hideControlsAfterDelay() {
   }, 2000);
 }
 
+// Show controls on mouse move
 video.addEventListener("mousemove", () => {
   controls.classList.remove("hidden");
   hideControlsAfterDelay();
 });
 
+// Keep controls visible on mouse enter
 controls.addEventListener("mouseenter", () => {
   isMouseOverControls = true;
   clearTimeout(controlsTimeout);
 });
 
+// Hide controls on mouse leave
 controls.addEventListener("mouseleave", () => {
   isMouseOverControls = false;
   hideControlsAfterDelay();
 });
 
+// Toggle full screen mode
 function toggleFullScreen() {
   if (!document.fullscreenElement) {
     document
@@ -172,6 +184,7 @@ document.addEventListener("fullscreenchange", () => {
 video.addEventListener("dblclick", toggleFullScreen);
 video.addEventListener("click", togglePlayPause);
 
+// Mute/unmute video on volume icon click
 volumeIcon.addEventListener("click", () => {
   video.muted = !video.muted;
   video.muted ? (volumeBar.value = 0) : (volumeBar.value = video.volume);
@@ -179,6 +192,7 @@ volumeIcon.addEventListener("click", () => {
   updateVolumeBar();
 });
 
+// Show volume bar on mouse enter
 volumeIcon.addEventListener("mouseenter", () => {
   volumeBar.classList.remove("hidden");
 });
@@ -191,12 +205,14 @@ volumeBar.addEventListener("mouseleave", () => {
   volumeBar.classList.add("hidden");
 });
 
+// Update video volume on volume bar input
 volumeBar.addEventListener("input", () => {
   video.volume = volumeBar.value;
   updateVolumeDisplay();
   updateVolumeBar();
 });
 
+// Update volume icon and tooltip
 function updateVolumeDisplay() {
   volumeIcon.title = `Volume: ${Math.round(
     (!video.muted ? video.volume : 0) * 100
@@ -210,8 +226,9 @@ function updateVolumeDisplay() {
   }
 }
 
+// Update volume bar value
 function updateVolumeBar() {
-  volumeBar.value = video.volume;
+  volumeBar.value = video.muted ? 0 : video.volume;
 }
 
 // Toggle speed options visibility
@@ -219,17 +236,7 @@ playbackSpeed.addEventListener("click", () => {
   speedOptions.classList.toggle("hidden");
 });
 
-// // Set video playback speed
-// speedOptions.addEventListener("click", (event) => {
-//   const speed = event.target.getAttribute("data-speed");
-//   if (speed) {
-//     video.playbackRate = parseFloat(speed);
-//     document.querySelector(".menu-item-content").textContent = `${speed}x`;
-//     speedOptions.classList.add("hidden");
-//   }
-// });
-
-
+// Toggle settings menu visibility
 settingsControl.addEventListener("click", (event) => {
   event.stopPropagation(); // Prevent the click from propagating to the document
   settingMenu.classList.toggle("hidden");
@@ -238,6 +245,7 @@ settingsControl.addEventListener("click", (event) => {
   }
 });
 
+// Hide settings menu on document click
 document.addEventListener("click", (event) => {
   if (
     !settingMenu.contains(event.target) &&
@@ -247,29 +255,34 @@ document.addEventListener("click", (event) => {
   }
 });
 
+// Add 10 seconds to video current time
 add10s.addEventListener("click", () => {
   video.currentTime += 10;
 });
 
+// Subtract 10 seconds from video current time
 subtract10s.addEventListener("click", () => {
   video.currentTime -= 10;
 });
 
+// Toggle speed options visibility
 playbackSpeed.addEventListener("click", () => {
   speed.classList.toggle("hidden");
   speed.classList.toggle("show");
 });
 
+// Set video playback speed
 speed.addEventListener("click", (event) => {
   const speedValue = event.target.getAttribute("data-speed");
   if (speedValue) {
     video.playbackRate = parseFloat(speedValue);
-    document.querySelector(".menu-item-content").textContent = `${speedValue != 1 ? `${speedValue}x` : "Normal"}`;
-    speed.classList.add("hidden");
-    speed.classList.remove("show");
+    document.querySelector(".menu-item-content").textContent = `${
+      speedValue != 1 ? `${speedValue}x` : "Normal"
+    }`;
+    console.log(speed);
   }
 });
 
-
+// Initial update of volume display and bar
 updateVolumeDisplay();
 updateVolumeBar();
