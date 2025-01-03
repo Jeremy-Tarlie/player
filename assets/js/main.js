@@ -14,12 +14,14 @@ const volumeBar = document.getElementById("volume-bar");
 const playbackSpeed = document.getElementById("playback-speed");
 const speedOptions = document.getElementById("speed-options");
 const speed = document.getElementById("speed");
+const settings = document.getElementById("settings-icon");
 const settingMenu = document.getElementById("settings-menu");
 const settingsControl = document.getElementById("settings-control");
 const add10s = document.getElementById("add10s");
 const subtract10s = document.getElementById("subtract10s");
 let controlsTimeout;
 let isMouseOverControls = false;
+
 
 function captureThumbnail() {
   const ctx = canvas.getContext("2d");
@@ -217,15 +219,16 @@ playbackSpeed.addEventListener("click", () => {
   speedOptions.classList.toggle("hidden");
 });
 
-// Set video playback speed
-speedOptions.addEventListener("click", (event) => {
-  const speed = event.target.getAttribute("data-speed");
-  if (speed) {
-    video.playbackRate = parseFloat(speed);
-    document.querySelector(".menu-item-content").textContent = `${speed}x`;
-    speedOptions.classList.add("hidden");
-  }
-});
+// // Set video playback speed
+// speedOptions.addEventListener("click", (event) => {
+//   const speed = event.target.getAttribute("data-speed");
+//   if (speed) {
+//     video.playbackRate = parseFloat(speed);
+//     document.querySelector(".menu-item-content").textContent = `${speed}x`;
+//     speedOptions.classList.add("hidden");
+//   }
+// });
+
 
 settingsControl.addEventListener("click", (event) => {
   event.stopPropagation(); // Prevent the click from propagating to the document
@@ -258,14 +261,15 @@ playbackSpeed.addEventListener("click", () => {
 });
 
 speed.addEventListener("click", (event) => {
-  const speed = event.target.getAttribute("data-speed");
-  if (speed) {
-    video.playbackRate = parseFloat(speed);
-    document.querySelector(".menu-item-content").textContent = `${speed}x`;
+  const speedValue = event.target.getAttribute("data-speed");
+  if (speedValue) {
+    video.playbackRate = parseFloat(speedValue);
+    document.querySelector(".menu-item-content").textContent = `${speedValue != 1 ? `${speedValue}x` : "Normal"}`;
     speed.classList.add("hidden");
     speed.classList.remove("show");
   }
 });
+
 
 updateVolumeDisplay();
 updateVolumeBar();
